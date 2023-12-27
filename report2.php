@@ -15,7 +15,6 @@ $alert = ""; //error //success
             $from   = $_GET['from'];
             $to     = $_GET['to'];
 
-           
         }else{
 
             $from  = "";

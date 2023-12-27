@@ -25,8 +25,10 @@ if(isset($_GET['patient_id'])){
                           <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
-                  <div class="modal-body" style="width:100px; height:300px;text-align:center;">
-                      <div id="qrcode" style="width:100px; height:100px;"></div>
+                  <div class="modal-body" style="width:100%; height:300px;text-align:center;">
+                    <div>Password for PDF is the birthday of Patient in MMDDYY (example: <i><b>102621</b></i>) October 26, 2021  </div>
+                    <div id="qrcode" style="width:100px; height:100px;"></div>
+                    
                   </div>
               </div>
           </div>
@@ -89,10 +91,7 @@ if(isset($_GET['patient_id'])){
                   </thead>
                   <tbody>
                     <?php
-
-                                    $siteUrl = "http://192.168.137.1"; // Replace with your actual site URL
-                                    
-
+                                    $siteUrl = gethostbyname(gethostname()); // Replace with your actual site URL
                                       $sql = "SELECT * FROM tbl_appointment WHERE patient_id ='$patient_id' AND status = 'Served' ORDER BY appointment_time DESC";
                                                 $records = $crud->read($sql);
                                                 if ($records !== false) {

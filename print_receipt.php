@@ -1,6 +1,9 @@
 <?php
+session_start();
 require_once('tcpdf/tcpdf.php');
 require_once 'config/master.php'; 
+
+$check = !empty($_SESSION["user_id"]);
 
 $id = $_GET['id'];
 $sql = "SELECT * FROM tbl_appointment INNER JOIN tbl_patients ON tbl_appointment.patient_id = tbl_patients.patient_id INNER JOIN tbl_users ON tbl_appointment.doctor_id = tbl_users.user_id WHERE tbl_appointment.id = '$id' ORDER BY tbl_appointment.id ASC";
@@ -29,9 +32,18 @@ $pdf->SetAuthor('Medical Prescription');
 $pdf->SetTitle('Medical Prescription');
 
 // Set password protection for the PDF (optional)
-// $password = 'sample123';
-// $pdf->SetProtection(array('print', 'copy'), $password);
 
+$date = new DateTime($dob );
+
+// Format the date as MMDDYY
+$formattedDate = $date->format('mdy');
+if ($check) {
+
+} else {
+    $password = $formattedDate;
+    $pdf->SetProtection(array('print', 'copy'), $password);
+
+}
 
 // set default header data
 //customize header
