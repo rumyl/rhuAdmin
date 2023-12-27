@@ -1,1 +1,1 @@
-# [BIMS - Barangay Information Management System]
+# Patient Information Management System RHU

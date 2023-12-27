@@ -28,6 +28,11 @@ $pdf->SetCreator('Medical Prescription');
 $pdf->SetAuthor('Medical Prescription');
 $pdf->SetTitle('Medical Prescription');
 
+// Set password protection for the PDF (optional)
+// $password = 'sample123';
+// $pdf->SetProtection(array('print', 'copy'), $password);
+
+
 // set default header data
 //customize header
 $pdf->setPrintHeader(false);
