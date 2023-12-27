@@ -93,7 +93,7 @@ if(isset($_GET['patient_id'])){
                                     $siteUrl = "http://192.168.137.1"; // Replace with your actual site URL
                                     
 
-                                      $sql = "SELECT * FROM tbl_appointment WHERE patient_id ='$patient_id' ORDER BY appointment_time DESC";
+                                      $sql = "SELECT * FROM tbl_appointment WHERE patient_id ='$patient_id' AND status = 'Served' ORDER BY appointment_time DESC";
                                                 $records = $crud->read($sql);
                                                 if ($records !== false) {
                                                 foreach($records as $record) {
