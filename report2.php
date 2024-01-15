@@ -60,10 +60,10 @@ $alert = ""; //error //success
                 <div class="row">
                     
                     <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="From" name="from" max="<?php echo date('Y-m-d', strtotime('-1 day')); ?>" onfocus="(this.type='date')" step="1" id="" required>
+                        <input type="text" class="form-control" placeholder="From" name="from" max="<?php echo date('Y-m-d'); ?>" onfocus="(this.type='date')" step="1" id="" required>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="To" name="to" max="<?php echo date('Y-m-d', strtotime('-1 day')); ?>" onfocus="(this.type='date')" step="1" id="" required>
+                        <input type="text" class="form-control" placeholder="To" name="to" max="<?php echo date('Y-m-d'); ?>" onfocus="(this.type='date')" step="1" id="" required>
                     </div>
                     <div class="col-md-2">
                         <input type="submit" class="btn btn-success" name="submit" value="Submit">
@@ -85,7 +85,7 @@ $alert = ""; //error //success
                                               while (strtotime($currentDate) <= strtotime($to)) {
                                                   $sql = "SELECT '$currentDate' AS appointment_date, COUNT(id) AS date_count
                                                           FROM tbl_appointment
-                                                          WHERE DATE(appointment_date) = '$currentDate' AND status = 'SERVED'
+                                                          WHERE DATE(appointment_date) = '$currentDate' AND status = 'Served'
                                                           GROUP BY '$currentDate'";
                                               
                                                   $records = $crud->read($sql);

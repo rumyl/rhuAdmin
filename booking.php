@@ -9,26 +9,6 @@ $msg = "";
 $display = "none";
 $alert = ""; //error //success
 
-        if(isset($_GET['id'])){
-
-            $action = $_GET['action'];
-            $id     = $_GET['id'];
-
-            if($action == "deny"){
-
-                $dataToUpdate = array(
-                    'status'  => 'denied'
-                );
-
-                $tableName = 'tbl_online';
-                $condition = "id = '{$id}'";
-                $updateId = $crud->update($tableName, $condition, $dataToUpdate);
-                $alert = "error";
-                $msg = "Appointment has been denied.";
-                $display = "block";
-                echo '<meta http-equiv="refresh" content="2;url=booking">';
-            }
-        }
 ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -86,7 +66,8 @@ $alert = ""; //error //success
                                                     <td class="mailbox-attachment">
                                                         
                                                         <button class="btn btn-success btn-sm btn-approve"  data-pid =<?php echo $id; ?>>Aprove</button> | 
-                                                        <a href="booking?id=<?php echo $id; ?>&action=deny"  onclick="return confirm('Are you sure you want to deny this appointment?');"><button class="btn btn-danger btn-sm">Deny</button></a></td>
+                                                        <button class="btn btn-danger btn-sm btn-deny"  data-pid =<?php echo $id; ?>>Deny</button>
+                                                      </td>
                                                 </tr>
                                                <?php 
                                                  }
@@ -133,12 +114,36 @@ $alert = ""; //error //success
             });
         }
 
+        function sendEmail2(name, email, time, date) {
+            var email = email;
+            var from_name = name;
+
+            emailjs.send("service_ldqt4wa", "template_yb5zrrl", {
+                to_email: email,
+                from_name: from_name,
+                message: "Hello, "+name +" your booking has been denied."
+            })
+            .then(response => {
+                console.log('Email sent:', response);
+                //alert('Email sent successfully!');
+            })
+            .catch(error => {
+                console.error('Error sending email:', error);
+                //alert('Error sending email. Please try again. Check console for details.');
+            });
+        }
+
         function successCallback(events) {
             events.forEach(function(event) {
                 sendEmail(event.name, event.email, event.time, event.date);
             });
         }
 
+        function successCallback2(events) {
+            events.forEach(function(event) {
+                sendEmail2(event.name, event.email, event.time, event.date);
+            });
+        }
 
         $(document).on("click", ".btn-approve", function() {
           var id = $(this).data('pid');
@@ -167,6 +172,41 @@ $alert = ""; //error //success
                   } else {
                       // Handle the case where the response is not an array
                       failureCallback("Invalid response format");
+                  }
+              },
+              error: function(xhr, status, error) {
+                  failureCallback(error);
+              }
+          });
+      });
+
+      $(document).on("click", ".btn-deny", function() {
+          var id = $(this).data('pid');
+          $.ajax({
+              url: "deny_book.php",
+              method: "GET",
+              data: { id: id },
+              dataType: "json",
+              success: function(response) {
+                  // Check if response is an array
+                  if (Array.isArray(response)) {
+                      var events = response.map(function(event) {
+                          return {
+                              name: event.name,
+                              email: event.email,
+                              time: event.time,
+                              date: event.date
+                          };
+                      });
+                      successCallback2(events); // for email
+
+                      alert("Appointment has been denied, email has been sent to client.");
+                      location.reload(); 
+                      
+                     
+                  } else {
+                      // Handle the case where the response is not an array
+                      failureCallback2("Invalid response format");
                   }
               },
               error: function(xhr, status, error) {

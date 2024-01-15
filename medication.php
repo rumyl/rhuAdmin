@@ -54,6 +54,22 @@ if(isset($_POST['btn_book'])) {
     } 
 }   
 
+if(isset($_GET['action'])){
+
+  $action     = $_GET['action'];
+  $id = $_GET['id'];
+  if($action == "remove"){
+    
+    $delete = $crud->delete_one('tbl_appointment', 'id', $id);
+
+    $alert = "error";
+    $msg = "Appoinment has been removed.";
+    $display = "block";
+    echo '<meta http-equiv="refresh" content="2;url=medication">';
+  }
+
+}
+
 ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
