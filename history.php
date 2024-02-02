@@ -91,12 +91,12 @@ if(isset($_GET['patient_id'])){
                   </thead>
                   <tbody>
                     <?php
-                                    $siteUrl = gethostbyname(gethostname()); // Replace with your actual site URL
+                                    $siteUrl = "https://rhubanga2024.000webhostapp.com"; // Replace with your actual site URL
                                       $sql = "SELECT * FROM tbl_appointment WHERE patient_id ='$patient_id' AND status = 'Served' ORDER BY appointment_time DESC";
                                                 $records = $crud->read($sql);
                                                 if ($records !== false) {
                                                 foreach($records as $record) {
-                                                  $fullSiteUrl = $siteUrl . "/rhuAdmin/print_receipt=" . $record['id'];
+                                                  $fullSiteUrl = $siteUrl . "/rhuAdmin/print_receipt.php?id=" . $record['id'];
                                                     
                                                     ?>
                                                       <tr>
